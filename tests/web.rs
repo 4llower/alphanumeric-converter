@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod tests {
-    use alphanumeric_convert_extension::to_string;
+    use alphanumeric_convert_extension::from_string;
+use alphanumeric_convert_extension::to_string;
     #[test]
     fn test_convert_to_string() {
         assert_eq!(to_string("A18720928B30D38F".to_string()), "&'()*+,-./");
@@ -13,5 +14,12 @@ mod tests {
         assert_eq!(to_string("3515580000000000".to_string()), "456");
         assert_eq!(to_string("2493000000000000".to_string()), "23");
         assert_eq!(to_string("1440000000000000".to_string()), "1");
+        assert_eq!(to_string("dgjkdsjfldsjds".to_string()), "Incorrect Alphanumeric Number");
+        assert_eq!(to_string("".to_string()), "Incorrect Alphanumeric Number");
+        assert_eq!(to_string("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".to_string()), "Incorrect Alphanumeric Number");
+    }
+
+    fn test_convert_from_string() {
+        assert_eq!(from_string("BCDEF".to_string()), 0x58A3925980000000)
     }
 }

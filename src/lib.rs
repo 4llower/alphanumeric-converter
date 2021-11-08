@@ -16,7 +16,13 @@ const INCORRECT_STRING: &str = "Incorrect Alphanumeric String";
 
 #[wasm_bindgen]
 pub fn to_string(original: String) -> String {
-    let value: i128 = i128::from_str_radix(&original.trim(), 16).unwrap();
+    let parsed = i128::from_str_radix(&original.trim(), 16);
+
+    if parsed.is_err() {
+        return INCORRECT_NUMBER.to_string();
+    }
+
+    let value: i128 = parsed.unwrap();
 
     if value == INT64_NULL_VALUE {
         return INCORRECT_NUMBER.to_string();
@@ -36,25 +42,15 @@ pub fn from_string(original: String) -> String {
     let length = original.len();    
     let value = (original.trim()).as_bytes();
 
-    let mut acc: i128 = 0;
-    let mut ch;
-    let mut check: u8 = 0;
-
     if length > 10 {
         return INCORRECT_STRING.to_string();
     }
 
-    for i in (0..length).rev() {
-        ch = value[i] - SPACE_CODE;
-        check |= ch;
-        acc |= ((ch & 0x3f) as i128) << (9 - i) * 6;
-    }
-    
-    if check >> 6 != 0 {
-        return INCORRECT_STRING.to_string();
-    }
+    let result: i128 = convert_from(value, length);
 
-    let result: i128 = (length as i128) << (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS) + acc;
+    if result == -1 {
+        return INCORRECT_NUMBER.to_string();
+    }
 
     return result.to_string();
 }
@@ -68,4 +64,22 @@ pub fn convert_to(value: i128) -> String {
     }
 
     return result.trim().to_string();
+}
+
+pub fn convert_from(value: &[u8], length: usize) -> i128 {
+    let mut acc: i128 = 0;
+    let mut ch;
+    let mut check: u8 = 0;
+
+    for i in (0..length).rev() {
+        ch = value[i] - SPACE_CODE;
+        check |= ch;
+        acc |= ((ch & 0x3f) as i128) << (9 - i) * 6;
+    }
+
+    if check >> 6 != 0 {
+        return -1;
+    }
+
+    return (length as i128) << (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS) + acc;
 }
