@@ -14,9 +14,9 @@ mod tests {
         assert_eq!(to_string("3515580000000000".to_string()), "456");
         assert_eq!(to_string("2493000000000000".to_string()), "23");
         assert_eq!(to_string("1440000000000000".to_string()), "1");
-        assert_eq!(to_string("dgjkdsjfldsjds".to_string()), "Incorrect Alphanumeric Number");
-        assert_eq!(to_string("".to_string()), "Incorrect Alphanumeric Number");
-        assert_eq!(to_string("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".to_string()), "Incorrect Alphanumeric Number");
+        assert_eq!(to_string("dgjkdsjfldsjds".to_string()), "Incorrect:(");
+        assert_eq!(to_string("".to_string()), "Incorrect:(");
+        assert_eq!(to_string("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA".to_string()), "Incorrect:(");
     }
 
     #[test]

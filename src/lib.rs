@@ -11,27 +11,26 @@ const INT64_NULL_VALUE: i128 = i128::MIN;
 const ALPHANUM_10_NUM_LENGTH_BITS: i128 = 4;
 const ALPHANUM10_MAX_LENGTH: i128 = 10;
 const SPACE_CODE: u8 = ' ' as u8;
-const INCORRECT_NUMBER: &str = "Incorrect Alphanumeric Number";
-const INCORRECT_STRING: &str = "Incorrect Alphanumeric String";
+const INCORRECT: &str = "Incorrect:(";
 
 #[wasm_bindgen]
 pub fn to_string(original: String) -> String {
     let parsed = i128::from_str_radix(&original.trim(), 16);
 
     if parsed.is_err() {
-        return INCORRECT_NUMBER.to_string();
+        return INCORRECT.to_string();
     }
 
     let value: i128 = parsed.unwrap();
 
     if value == INT64_NULL_VALUE {
-        return INCORRECT_NUMBER.to_string();
+        return INCORRECT.to_string();
     } 
 
     let len = value >> (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS);
 
     if len == ALPHANUM10_MAX_LENGTH + 1 {
-        return INCORRECT_NUMBER.to_string();
+        return INCORRECT.to_string();
     }
 
     return convert_to(value);
@@ -43,16 +42,16 @@ pub fn from_string(original: String) -> String {
     let value = (original.trim()).as_bytes();
 
     if length > 10 {
-        return INCORRECT_STRING.to_string();
+        return INCORRECT.to_string();
     }
 
     let result: i128 = convert_from(value, length as u8);
 
     if result == -1 {
-        return INCORRECT_NUMBER.to_string();
+        return INCORRECT.to_string();
     }
 
-    return result.to_string();
+    return format!("{:#X}",result);
 }
 
 pub fn convert_to(value: i128) -> String {
