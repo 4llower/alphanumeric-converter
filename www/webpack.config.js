@@ -9,7 +9,7 @@ module.exports = {
   },
   mode: "development",
   plugins: [
-    new CopyWebpackPlugin(['./public/index.html', './public/favicon.png'])
+    new CopyWebpackPlugin(['./public/index.html', './public/favicon.png', './public/swap.png'])
   ],
   module: {
     rules: [
