@@ -1,0 +1,20 @@
+on: [push]
+
+name: CI
+
+jobs:
+  build_and_test:
+    name: Rust project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - run:
+        - (test -x $HOME/.cargo/bin/cargo-install-update || cargo install cargo-update)
+        - (test -x $HOME/.cargo/bin/cargo-generate || cargo install --vers "^0.2" cargo-generate)
+        - cargo install-update -a
+        - curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+        - cargo test
+        - wasm-pack build
