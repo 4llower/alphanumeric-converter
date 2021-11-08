@@ -46,7 +46,7 @@ pub fn from_string(original: String) -> String {
         return INCORRECT_STRING.to_string();
     }
 
-    let result: i128 = convert_from(value, length);
+    let result: i128 = convert_from(value, length as u8);
 
     if result == -1 {
         return INCORRECT_NUMBER.to_string();
@@ -66,13 +66,17 @@ pub fn convert_to(value: i128) -> String {
     return result.trim().to_string();
 }
 
-pub fn convert_from(value: &[u8], length: usize) -> i128 {
+pub fn convert_from(value: &[u8], length: u8) -> i128 {
     let mut acc: i128 = 0;
     let mut ch;
     let mut check: u8 = 0;
 
+    if length == 0 {
+        return -1;
+    }
+
     for i in (0..length).rev() {
-        ch = value[i] - SPACE_CODE;
+        ch = value[i as usize] - SPACE_CODE;
         check |= ch;
         acc |= ((ch & 0x3f) as i128) << (9 - i) * 6;
     }
@@ -81,5 +85,5 @@ pub fn convert_from(value: &[u8], length: usize) -> i128 {
         return -1;
     }
 
-    return (length as i128) << (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS) + acc;
+    return ((length as i128) << (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS)) + acc;
 }
