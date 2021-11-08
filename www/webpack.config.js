@@ -11,4 +11,12 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin(['./public/index.html', './public/favicon.png'])
   ],
+  module: {
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
 };

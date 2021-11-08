@@ -27,14 +27,16 @@
   },
   "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
   "dependencies": {
-    "@popperjs/core": "^2.10.2",
     "alphanumeric": "file:../pkg",
+    "@popperjs/core": "^2.10.2",
     "rxjs": "^7.4.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",
+    "css-loader": "^5.2.7",
     "hello-wasm-pack": "^0.1.0",
     "html-webpack-plugin": "^5.4.0",
+    "style-loader": "^2.0.0",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5"
