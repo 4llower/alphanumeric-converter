@@ -1,0 +1,71 @@
+use wasm_bindgen::prelude::*;
+
+
+// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
+// allocator.
+#[cfg(feature = "wee_alloc")]
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+const INT64_NULL_VALUE: i128 = i128::MIN;
+const ALPHANUM_10_NUM_LENGTH_BITS: i128 = 4;
+const ALPHANUM10_MAX_LENGTH: i128 = 10;
+const SPACE_CODE: u8 = ' ' as u8;
+const INCORRECT_NUMBER: &str = "Incorrect Alphanumeric Number";
+const INCORRECT_STRING: &str = "Incorrect Alphanumeric String";
+
+#[wasm_bindgen]
+pub fn to_string(original: String) -> String {
+    let value: i128 = i128::from_str_radix(&original.trim(), 16).unwrap();
+
+    if value == INT64_NULL_VALUE {
+        return INCORRECT_NUMBER.to_string();
+    } 
+
+    let len = value >> (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS);
+
+    if len == ALPHANUM10_MAX_LENGTH + 1 {
+        return INCORRECT_NUMBER.to_string();
+    }
+
+    return convert_to(value);
+}
+
+#[wasm_bindgen]
+pub fn from_string(original: String) -> String {
+    let length = original.len();    
+    let value = (original.trim()).as_bytes();
+
+    let mut acc: i128 = 0;
+    let mut ch;
+    let mut check: u8 = 0;
+
+    if length > 10 {
+        return INCORRECT_STRING.to_string();
+    }
+
+    for i in (0..length).rev() {
+        ch = value[i] - SPACE_CODE;
+        check |= ch;
+        acc |= ((ch & 0x3f) as i128) << (9 - i) * 6;
+    }
+    
+    if check >> 6 != 0 {
+        return INCORRECT_STRING.to_string();
+    }
+
+    let result: i128 = (length as i128) << (8 * 8 - ALPHANUM_10_NUM_LENGTH_BITS) + acc;
+
+    return result.to_string();
+}
+
+pub fn convert_to(value: i128) -> String {
+    let mut result: String = "".to_string();
+
+    for i in 1..(ALPHANUM10_MAX_LENGTH + 1) {
+        let current: i128 = (value >> ((60 - 6 * i) as i128)) & 0x3F;
+        result.push(((current as u8) + SPACE_CODE) as char);
+    }
+
+    return result.trim().to_string();
+}
