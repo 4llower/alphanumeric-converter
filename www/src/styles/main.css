@@ -1,8 +1,7 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto', sans-serif !important;
     font-size: 16px;
     line-height: 1.5;
-    color: #333;
     background: #22272e;
-    color: #adbac7;
+    color: #d1dfec;
 }
