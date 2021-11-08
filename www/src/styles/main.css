@@ -7,18 +7,44 @@ body {
     transition: 1s ease;
 }
 .container {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 100px;
 }
 
 .convert {
-    background: #22272e;
+    background: #2a3038;
     border-color: #444c56;
     border-width: 1px;
     border-radius: 6px;
     border-style: solid;
     padding: 30px;
+}
+
+.convert__box {
+    margin-top: 30px;
+    display: flex;
+}
+
+#from, #to {
+    width: 100%;
+    outline: none !important;
+    border: 1px solid #444c56;
+    background: #2a3038;
+    box-shadow: none !important;
+    font-size: 30px;
+    color: #d1dfec;
+    background: #3c444e;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#from {
+    margin-right: 70px;
+}
+
+#to {
+    cursor: text;
 }
 
 .convert__controls {
