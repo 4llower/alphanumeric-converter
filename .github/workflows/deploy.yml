@@ -16,9 +16,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12
-      - run: cd www
-      - run: npm install
-      - run: npm run build
+      - run: |
+          cd www
+          npm install
+          npm run build
 
       - name: Deploy
         uses: crazy-max/ghaction-github-pages@v2
