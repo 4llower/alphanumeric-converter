@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 12
-      - run: |
+        run: |
           cd www
           npm install
           npm run build
@@ -25,6 +25,6 @@ jobs:
         uses: crazy-max/ghaction-github-pages@v2
         with:
           target_branch: gh_pages
-          build_dir: dist
+          build_dir: www/dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_REPO_TOKEN }}
