@@ -11,11 +11,11 @@ const INT64_NULL_VALUE: i128 = i128::MIN;
 const ALPHANUM_10_NUM_LENGTH_BITS: i128 = 4;
 const ALPHANUM10_MAX_LENGTH: i128 = 10;
 const SPACE_CODE: u8 = ' ' as u8;
-const INCORRECT: &str = "Incorrect:(";
+const INCORRECT: &str = "INCORRECT :(";
 
 #[wasm_bindgen]
-pub fn to_string(original: String) -> String {
-    let parsed = i128::from_str_radix(&original.trim(), 16);
+pub fn to_string(original: String, base: u32) -> String {
+    let parsed = i128::from_str_radix(&original.trim(), base);
 
     if parsed.is_err() {
         return INCORRECT.to_string();
@@ -51,7 +51,7 @@ pub fn from_string(original: String) -> String {
         return INCORRECT.to_string();
     }
 
-    return format!("{:#X}",result);
+    return result.to_string();
 }
 
 pub fn convert_to(value: i128) -> String {
